@@ -69,7 +69,7 @@ function App() {
 
   useEffect(() => {
     async function prepareResolutionCall() {
-      if (await isValidUnstoppableDomainName(inputDomain.value)) {
+      if (await isValidUnstoppableDomainName(inputDomain.value) && inputCurrency.value !== undefined && inputCurrency.value !== "") {
         domainData = await resolveUnsName(inputDomain.value, inputCurrency.value, inputVersion.value, library);
         setDomainData(domainData);
       }
