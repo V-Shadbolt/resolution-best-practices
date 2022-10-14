@@ -21,7 +21,7 @@ export async function resolveSingleChainUnsApi(unsName, symbol) {
     const resolution = {};
     resolution.unsName = unsName;
     resolution.currency = symbol;
-    if (records) {
+    if (records && Object.keys(records).length !== 0 && Object.getPrototypeOf(records) === Object.prototype) {
         Object.keys(records).forEach(record => {
             if (record.startsWith(`crypto.${symbol}.address`)) {
                 resolution.address = records[record];
