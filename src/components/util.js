@@ -1,3 +1,4 @@
+import axios from "axios";
 import Resolution from "@unstoppabledomains/resolution";
 import { udResolverKeys } from '@unstoppabledomains/tldsresolverkeys';
 
@@ -32,13 +33,24 @@ export function errorHandling(error) {
     return prettyError
 }
 
-export async function isValidUnstoppableDomainName(domainInput) {
-    const udResolutionInstance = new Resolution();
-    const isValidUD = await udResolutionInstance
-        .isSupportedDomain(domainInput)
+export async function isValidUnstoppableDomainName(domainInput, api) {
+    let isValidUD = false
+    if (api) {
+        const inputTld = domainInput.split(/\.(?=[^\.]+$)/) // regex allows for subdomains
+        const response = await axios
+        .get(`https://resolve.unstoppabledomains.com/supported_tlds`, {
+        })
         .catch((err) => {
-            //console.log(err);
-            return false
-        });
+            //console.log(err)
+        })
+        isValidUD = response.data.tlds.includes(inputTld[inputTld.length - 1])
+    } else {
+        const udResolutionInstance = new Resolution();
+        isValidUD = await udResolutionInstance
+            .isSupportedDomain(domainInput)
+            .catch((err) => {
+                //console.log(err);
+            });
+    }
     return isValidUD;
 }

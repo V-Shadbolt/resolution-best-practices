@@ -34,20 +34,20 @@ function useInput() {
   };
 }
 
-async function resolveUnsName(domain, currency, version, resolutionType) {
+async function resolveUnsName(domain, currency, version, api) {
   const chain = determineChainType(currency)
   let resolution = {};
-  if (resolutionType) {
-    if (chain === SINGLE_CHAIN) {
-      resolution = await resolveSingleChainUns(domain, currency);
-    } else {
-      resolution = await resolveMultiChainUns(domain, currency, version);
-    }
-  } else {
+  if (api) {
     if (chain === SINGLE_CHAIN) {
       resolution = await resolveSingleChainUnsApi(domain, currency);
     } else {
       resolution = await resolveMultiChainUnsApi(domain, currency, version);
+    }
+  } else {
+    if (chain === SINGLE_CHAIN) {
+      resolution = await resolveSingleChainUns(domain, currency);
+    } else {
+      resolution = await resolveMultiChainUns(domain, currency, version);
     }
   }
   resolution.chain = chain;
@@ -57,20 +57,20 @@ async function resolveUnsName(domain, currency, version, resolutionType) {
 function App() {
   let [domainData, setDomainData] = useState('');
   const [api, setApi] = useState(false);
-  const [library, setLibrary] = useState(true);
+  const [method, setMethod] = useState(true);
   const inputDomain = useInput();
   const inputCurrency = useInput();
   const inputVersion = useInput();
 
   const handleChange = () => {
     setApi(!api);
-    setLibrary(!library);
+    setMethod(!method);
   };
 
   useEffect(() => {
     async function prepareResolutionCall() {
-      if (await isValidUnstoppableDomainName(inputDomain.value) && inputCurrency.value !== undefined && inputCurrency.value !== "") {
-        domainData = await resolveUnsName(inputDomain.value, inputCurrency.value, inputVersion.value, library);
+      if (await isValidUnstoppableDomainName(inputDomain.value, api) && inputCurrency.value !== undefined && inputCurrency.value !== "") {
+        domainData = await resolveUnsName(inputDomain.value, inputCurrency.value, inputVersion.value, api);
         setDomainData(domainData);
       }
     }
@@ -92,7 +92,7 @@ function App() {
         <label>
           <input
             type="checkbox"
-            checked={library}
+            checked={method}
             onChange={handleChange}
           />
           Library
