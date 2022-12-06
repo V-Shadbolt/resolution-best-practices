@@ -2417,10 +2417,10 @@
     crypto-js "^4.1.1"
     elliptic "^6.5.4"
 
-"@unstoppabledomains/tldsresolverkeys@^1.0.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@unstoppabledomains/tldsresolverkeys/-/tldsresolverkeys-1.1.0.tgz#dc1b5f56e2612aa0794f022c28d370a498cac278"
-  integrity sha512-cQKe2xzQDoKQZQrUqYPbXu3OsUSUShCw3VksrGz9rLoSSISSwh+YCrknxmfmwGzs9kOfzKC/8HDJTltza0chvw==
+"@unstoppabledomains/tldsresolverkeys@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@unstoppabledomains/tldsresolverkeys/-/tldsresolverkeys-2.0.3.tgz#32bde47f31750db176d7e74849b7c7769e97a6f9"
+  integrity sha512-KvcPrs84JzQ3obmoD32x6jDKcrKZrGI0uXyDWmeoNiVYXhWGRf5rt+GDBwpdVbrw1FQNOQLnRXzsimS+JRA1/g==
 
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"

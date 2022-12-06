@@ -35,22 +35,22 @@ function useInput() {
 }
 
 async function resolveUnsName(domain, currency, version, api) {
-  const chain = determineChainType(currency)
+  const addressList = determineChainType(currency)
   let resolution = {};
   if (api) {
-    if (chain === SINGLE_CHAIN) {
+    if (addressList === SINGLE_CHAIN) {
       resolution = await resolveSingleChainUnsApi(domain, currency);
     } else {
       resolution = await resolveMultiChainUnsApi(domain, currency, version);
     }
   } else {
-    if (chain === SINGLE_CHAIN) {
+    if (addressList === SINGLE_CHAIN) {
       resolution = await resolveSingleChainUns(domain, currency);
     } else {
       resolution = await resolveMultiChainUns(domain, currency, version);
     }
   }
-  resolution.chain = chain;
+  resolution.addressList = addressList;
   return resolution;
 }
 
@@ -113,7 +113,7 @@ function App() {
       <div>Domain Name: {inputDomain.value} </div>
       <div>Currency: {inputCurrency.value} </div>
       <div>Version: {inputVersion.value} </div>
-      <div>Chain: {domainData.chain} </div>
+      <div>Address List: {domainData.addressList} </div>
       <div>Address: {domainData.address} </div>
       <div>Error: {domainData.error} </div>
     </div>

@@ -10,7 +10,7 @@ const UNS_CURRENCY_SPEC_ERROR = "The entered Unstoppable Domain does not have a 
 const UNS_CURRENCY_ERROR = "Unstoppable Domains does not support this currency. Try sending a different one or use the owners address instead.";
 
 export function determineChainType(asset) {
-    return udResolverKeys.singleChain.includes(asset)
+    return udResolverKeys.singleAddressList.includes(asset)
         ? SINGLE_CHAIN
         : MULTI_CHAIN;
 }
