@@ -2,20 +2,20 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import './App.css';
 import {
-  determineChainType,
+  determineAddressType,
   isValidUnstoppableDomainName
 } from './util'
 import {
-  resolveMultiChainUns,
-  resolveSingleChainUns
+  resolveMultiAddressUns,
+  resolveSingleAddressUns
 } from './library'
 
 import {
-  resolveMultiChainUnsApi,
-  resolveSingleChainUnsApi
+  resolveMultiAddressUnsApi,
+  resolveSingleAddressUnsApi
 } from './api'
 
-const SINGLE_CHAIN = 'SINGLE_CHAIN';
+const SINGLE_ADDRESS_LIST = 'SINGLE';
 
 const StyledInput = styled.input`
   display: block;
@@ -35,19 +35,19 @@ function useInput() {
 }
 
 async function resolveUnsName(domain, currency, version, api) {
-  const addressList = determineChainType(currency)
+  const addressList = determineAddressType(currency)
   let resolution = {};
   if (api) {
-    if (addressList === SINGLE_CHAIN) {
-      resolution = await resolveSingleChainUnsApi(domain, currency);
+    if (addressList === SINGLE_ADDRESS_LIST) {
+      resolution = await resolveSingleAddressUnsApi(domain, currency);
     } else {
-      resolution = await resolveMultiChainUnsApi(domain, currency, version);
+      resolution = await resolveMultiAddressUnsApi(domain, currency, version);
     }
   } else {
-    if (addressList === SINGLE_CHAIN) {
-      resolution = await resolveSingleChainUns(domain, currency);
+    if (addressList === SINGLE_ADDRESS_LIST) {
+      resolution = await resolveSingleAddressUns(domain, currency);
     } else {
-      resolution = await resolveMultiChainUns(domain, currency, version);
+      resolution = await resolveMultiAddressUns(domain, currency, version);
     }
   }
   resolution.addressList = addressList;

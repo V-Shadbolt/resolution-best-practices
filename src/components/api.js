@@ -3,7 +3,7 @@ import { errorHandling } from './util'
 
 const access_token = process.env.REACT_APP_API_KEY;
 
-async function getUNS(unsName) {
+async function getUns(unsName) {
     const response = await axios
         .get(`https://resolve.unstoppabledomains.com/domains/${unsName}`, {
             headers: {
@@ -16,8 +16,8 @@ async function getUNS(unsName) {
     return response.data.records;
 }
 
-export async function resolveSingleChainUnsApi(unsName, symbol) {
-    const records = await getUNS(unsName);
+export async function resolveSingleAddressUnsApi(unsName, symbol) {
+    const records = await getUns(unsName);
     const resolution = {};
     resolution.unsName = unsName;
     resolution.currency = symbol;
@@ -37,8 +37,8 @@ export async function resolveSingleChainUnsApi(unsName, symbol) {
     return resolution;
 }
 
-export async function resolveMultiChainUnsApi(unsName, symbol, version) {
-    const records = await getUNS(unsName);
+export async function resolveMultiAddressUnsApi(unsName, symbol, version) {
+    const records = await getUns(unsName);
     const resolution = {};
     resolution.unsName = unsName;
     resolution.currency = symbol;
