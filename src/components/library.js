@@ -27,3 +27,15 @@ export async function resolveMultiAddressUns(unsName, symbol, version) {
     });
   return resolution;
 }
+
+export async function reverseResolution(address) {
+  const udResolutionInstance = new Resolution();
+  const resolution = {};
+  resolution.address = address;
+  resolution.unsName = await udResolutionInstance
+    .reverse(address)
+    .catch((err) => {
+      resolution.error = errorHandling(err.code);
+    });
+  return resolution;
+}

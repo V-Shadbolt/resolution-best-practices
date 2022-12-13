@@ -3,16 +3,19 @@ import styled from 'styled-components';
 import './App.css';
 import {
   determineAddressType,
-  isValidUnstoppableDomainName
+  isValidUnstoppableDomainName,
+  isAddress
 } from './util'
 import {
   resolveMultiAddressUns,
-  resolveSingleAddressUns
+  resolveSingleAddressUns,
+  reverseResolution
 } from './library'
 
 import {
   resolveMultiAddressUnsApi,
-  resolveSingleAddressUnsApi
+  resolveSingleAddressUnsApi,
+  reverseResolutionApi
 } from './api'
 
 const SINGLE_ADDRESS_LIST = 'SINGLE';
@@ -54,6 +57,16 @@ async function resolveUnsName(domain, currency, version, api) {
   return resolution;
 }
 
+async function reverseResolve(address, api) {
+  let resolution = {};
+  if (api) {
+    resolution = await reverseResolutionApi(address);
+  } else {
+    resolution = await reverseResolution(address);
+  }
+  return resolution;
+}
+
 function App() {
   let [domainData, setDomainData] = useState('');
   const [api, setApi] = useState(false);
@@ -61,6 +74,7 @@ function App() {
   const inputDomain = useInput();
   const inputCurrency = useInput();
   const inputVersion = useInput();
+  const inputAddress = useInput();
 
   const handleChange = () => {
     setApi(!api);
@@ -72,6 +86,13 @@ function App() {
       if (await isValidUnstoppableDomainName(inputDomain.value, api) && inputCurrency.value !== undefined && inputCurrency.value !== "") {
         domainData = await resolveUnsName(inputDomain.value, inputCurrency.value, inputVersion.value, api);
         setDomainData(domainData);
+      }
+      else if (isAddress(inputAddress.value) && inputAddress.value !== undefined && inputAddress.value !== "") {
+        domainData = await reverseResolve(inputAddress.value, api);
+        setDomainData(domainData);
+      }
+      else {
+        return
       }
     }
 
@@ -110,7 +131,11 @@ function App() {
         {...inputVersion}
         placeholder="Type version here (ERC20, BEP20, TRON, ...)"
       />
-      <div>Domain Name: {inputDomain.value} </div>
+      <StyledInput
+        {...inputAddress}
+        placeholder="Address to Reverse Resolve)"
+      />
+      <div>Domain Name: {inputDomain.value? inputDomain.value : domainData.unsName} </div>
       <div>Currency: {inputCurrency.value} </div>
       <div>Version: {inputVersion.value} </div>
       <div>Address List: {domainData.addressList} </div>

@@ -22,7 +22,11 @@ export async function resolveSingleAddressUns(domain, token) {}
 export async function resolveMultiAddressUns(domain, token, mapping) {}
 ```
 
+The `library.js` file also outlines the basic function needed to reverse resolve an ETH address to an unstoppable domain. ***Note:*** Reverse resolve only supports Ethereum addresses
 
+```javascript
+export async function reverseResolution(address) {}
+```
 
 ## API
 
@@ -35,6 +39,11 @@ export async function resolveSingleAddressUnsApi(domain, token) {}
 export async function resolveMultiAddressUnsApi(domain, token, mapping) {}
 ```
 
+The `api.js` file also outlines the basic function needed to reverse resolve an ETH address to an unstoppable domain. ***Note:*** Reverse resolve only supports Ethereum addresses
+
+```javascript
+export async function reverseResolutionApi(address) {}
+```
 
 ## Utilities
 
@@ -54,6 +63,12 @@ Is used to prettify the error messages you will get from the `library.js` method
 export async function isValidUnstoppableDomainName(error) {}
 ```
 Is used to determine if a user input contains a valid Unstoppable Domain TLD. The function contains both methodology for using the `library.js` and `api.js` methods. The function compares an input to a pre-made and ever-evolving list of supported TLDs without the need for hardcoding. This will allow Unstoppable to continue to scale without breaking your existing integration. ***Note:*** As mentioned, you can also use the TLD list contained in this [npm package](https://www.npmjs.com/package/@unstoppabledomains/tldsresolverkeys) should you not want to hit an API endpoint for the list (hitting this API on every user input can drastically impact dapp performance).
+
+The `util.js` file also outlines an ETH address plausibility function which returns a plausible true or false for an inputed ETH address but does not verify the address against a checksum. 
+
+```javascript
+export function isAddress (address) {}
+```
 
 ## Running the Script
 `yarn start`

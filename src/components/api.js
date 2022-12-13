@@ -59,3 +59,19 @@ export async function resolveMultiAddressUnsApi(unsName, symbol, version) {
 
     return resolution;
 }
+
+export async function reverseResolutionApi(address) {
+    const resolution = {};
+    resolution.address = address;
+    const response = await axios
+        .get(`https://resolve.unstoppabledomains.com/reverse/${address}`, {
+            headers: {
+                'Authorization': `Bearer ${access_token}`
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    resolution.unsName = response.data.meta.domain;
+    return resolution;
+}
