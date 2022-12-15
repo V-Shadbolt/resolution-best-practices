@@ -67,10 +67,22 @@ async function reverseResolve(address, api) {
   return resolution;
 }
 
+const useLocalStorage = (storageKey, fallbackState) => {
+  const [value, setValue] = useState(
+    JSON.parse(localStorage.getItem(storageKey)) ?? fallbackState
+  );
+
+  useEffect(() => {
+    localStorage.setItem(storageKey, JSON.stringify(value));
+  }, [value, storageKey]);
+
+  return [value, setValue];
+};
+
 function App() {
-  let [domainData, setDomainData] = useState('');
-  const [api, setApi] = useState(false);
-  const [method, setMethod] = useState(true);
+  let [domainData, setDomainData] = useLocalStorage('domain', '');
+  const [api, setApi] = useLocalStorage('api', false);
+  const [method, setMethod] = useLocalStorage('method', true);
   const inputDomain = useInput();
   const inputCurrency = useInput();
   const inputVersion = useInput();
